@@ -1,5 +1,5 @@
 from mysql.connector import pooling
-from admin.domain.admin_model import Admin
+from admin.domain.admin_model import Admin, admin_schema
 from admin.application.superadmin_repository import ISuperAdminRepository
 
 
@@ -33,7 +33,7 @@ class MysqlAdminRepository(ISuperAdminRepository):
             result = cursor.fetchone()
             if not result:
                 return None
-            return Admin.admin_schema(result)
+            return admin_schema(result)
         finally:
             cursor.close()
             conn.close()

@@ -1,12 +1,12 @@
 from admin.domain.admin_model import Admin
 from admin.application.superadmin_repository import ISuperAdminRepository
 
-admin1 = Admin(admin_id= "1",username= "PacoAdmin", 
-                     email= "lmethod1234@gmail.com",password= "1234")
+admin1 = Admin(admin_id= "1",username= "PacoAdmin",
+                     email= "lmethod1234@gmail.com",password= "1234", is_superadmin=False)
 admin2 = Admin(admin_id= "2", username= "Paco4Admin",
-                     email= "lmethod@gmail.com", password= "1234")
+                     email= "lmethod@gmail.com", password= "1234", is_superadmin=False)
 admin3 = Admin(admin_id= "3", username= "Paco3Admin",
-                     email= "1234@gmail.com", password= "1234")
+                     email= "1234@gmail.com", password= "1234", is_superadmin=False)
 
 admin_list = [admin1, admin2, admin3]
 
