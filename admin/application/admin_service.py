@@ -5,7 +5,7 @@ class AdminService:
     def __init__(self, admin_repository: ISuperAdminRepository):
         self.__admin_repository = admin_repository
 
-    def create_admin(self, new_admin: Admin) -> AdminRepositoryException | bool:
+    def create_admin(self, new_admin: Admin) -> bool:
         if isinstance(self.get_admin_by_id("email", new_admin.email), Admin):
             raise AdminRepositoryException(f"Admin with id {new_admin.email} already in db")
         result = self.__admin_repository.create(new_admin)
