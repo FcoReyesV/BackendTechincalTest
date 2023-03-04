@@ -3,6 +3,7 @@ from admin.domain.admin_model import Admin
 from admin.application.superadmin_repository import ISuperAdminRepository, AdminRepositoryException
 from admin.infrastructure.mongodb_admin_repository import MongoDBSuperAdminRepository
 from admin.application.admin_service import AdminService
+from passlib.context import CryptContext
 #from admin.infrastructure.fakedb_superadmin_repository import FakeDBSuperAdminRepository
 
 
@@ -11,14 +12,15 @@ router = APIRouter(prefix="/admin",
                    responses={status.HTTP_404_NOT_FOUND: {"message": "Not found"}})
 
 # Setup admin service with MongoDBAdminRepository
-admin_repo: ISuperAdminRepository = MongoDBSuperAdminRepository("MONGO_URI")
 #admin_repo: ISuperAdminRepository = FakeDBSuperAdminRepository()
+admin_repo: ISuperAdminRepository = MongoDBSuperAdminRepository("MONGO_URI")
 admin_service = AdminService(admin_repo)
-
+crypt = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @router.post("/", response_model=Admin)
 async def create_admin(admin: Admin):
     try:
+        admin.password = crypt.hash(admin.password)
         result = admin_service.create_admin(admin)
         if result:
             raise HTTPException(
@@ -29,7 +31,7 @@ async def create_admin(admin: Admin):
             status_code=status.HTTP_409_CONFLICT,
             detail=f"{ex}"
         ) from ex
-    
+   
 
 @router.get("/{admin_id}")
 async def get_admin(admin_id: str) -> Admin:
@@ -38,24 +40,25 @@ async def get_admin(admin_id: str) -> Admin:
         if admin is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Admin not found")
+        return admin
     except AdminRepositoryException as exc:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
-    return admin
 
 @router.get("/")
 async def get_all_admins() -> list[Admin]:
     try:
         admins = admin_service.get_all_admins()
+        return admins
     except AdminRepositoryException as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
-    return admins
-
 
 @router.put("/{admin_id}")
 async def update_admin(admin: Admin):
     try:
+        if admin.password:
+            admin.password = crypt.hash(admin.password)
         result = admin_service.update_admin(admin)
         if result:
             raise HTTPException(
