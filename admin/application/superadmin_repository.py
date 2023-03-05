@@ -22,6 +22,3 @@ class ISuperAdminRepository(abc.ABC):
     @abc.abstractmethod
     def delete(self, field: str, key: str) -> bool:
         raise NotImplementedError
-    
-class AdminRepositoryException(Exception):
-    pass

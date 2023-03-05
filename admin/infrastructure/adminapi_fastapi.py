@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from admin.domain.admin_model import Admin
-from admin.application.superadmin_repository import ISuperAdminRepository, AdminRepositoryException
+from admin.application.superadmin_repository import ISuperAdminRepository
 from admin.infrastructure.mongodb_admin_repository import MongoDBSuperAdminRepository
 from admin.application.admin_service import AdminService
 from passlib.context import CryptContext
@@ -19,64 +19,63 @@ crypt = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @router.post("/", response_model=Admin)
 async def create_admin(admin: Admin):
-    try:
-        admin.password = crypt.hash(admin.password)
-        result = admin_service.create_admin(admin)
-        if result:
-            raise HTTPException(
-                status_code=status.HTTP_201_CREATED, 
-                detail="User created")
-    except AdminRepositoryException as ex:
+    admin.password = crypt.hash(admin.password)
+    result = admin_service.create_admin(admin)
+    if result:
+        raise HTTPException(
+            status_code=status.HTTP_201_CREATED,
+            detail="Admin created")
+    else:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"{ex}"
-        ) from ex
+            detail="Admin could not be created")
+    
    
 
 @router.get("/{admin_id}")
 async def get_admin(admin_id: str) -> Admin:
-    try:
-        admin = admin_service.get_admin_by_id("email", admin_id)
-        if admin is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="Admin not found")
-        return admin
-    except AdminRepositoryException as exc:
+    admin = admin_service.get_admin_by_id("email", admin_id)
+    if admin is None:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
+            status_code=status.HTTP_204_NO_CONTENT, 
+            detail="Admin not found")
+    return admin
+
 
 @router.get("/")
 async def get_all_admins() -> list[Admin]:
-    try:
-        admins = admin_service.get_all_admins()
-        return admins
-    except AdminRepositoryException as exc:
+    admins = admin_service.get_all_admins()
+    if len(admins) == 0:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+            status_code=status.HTTP_204_NO_CONTENT,
+            detail="Admins not found")
+    return admins
+        
+    
 
-@router.put("/{admin_id}")
+@router.put("/")
 async def update_admin(admin: Admin):
-    try:
-        if admin.password:
-            admin.password = crypt.hash(admin.password)
-        result = admin_service.update_admin(admin)
-        if result:
-            raise HTTPException(
-                status_code=status.HTTP_200_OK,
-                detail=f"Admin with email {admin.email} updated from db")
-    except AdminRepositoryException as ex:
+    if admin.password:
+        admin.password = crypt.hash(admin.password)
+    result = admin_service.update_admin(admin)
+    if result:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail=str(ex)) from ex
-
+            status_code=status.HTTP_200_OK,
+            detail=f"Admin with email {admin.email} updated in db")
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_204_NO_CONTENT,
+            detail=f"Admin with email {admin.email} could not be updated")
 
 @router.delete("/{admin_id}")
 async def delete_admin(admin_id: str):
-    try:
-        result = admin_service.delete_admin("email", admin_id)
-        if result:
-            raise HTTPException(
-                status_code=status.HTTP_200_OK,
-                detail=f"Admin with id {admin_id} deleted from db")
-    except AdminRepositoryException as exc:
+    result = admin_service.delete_admin("email", admin_id)
+    if result:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail=str(exc)) from exc
+            status_code=status.HTTP_200_OK,
+            detail=f"Admin with id {admin_id} deleted from db")
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_204_NO_CONTENT,
+            detail=f"Admin with id {admin_id} could not be deleted")
+

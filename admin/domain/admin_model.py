@@ -14,6 +14,3 @@ def admin_schema(admin) -> dict:
 
 def admins_schema(admins) -> list:
     return [admin_schema(admin) for admin in admins]
-
-class AdminNotFoundException(Exception):
-    pass
