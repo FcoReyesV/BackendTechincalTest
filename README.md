@@ -41,6 +41,17 @@ Use
 1. Go to the root folder
 2. Run the app in the console with  `python -m uvicorn fastapi_main:app --reload`
 3. Access the API documentation at http://localhost:8000/docs
+4. Create a superadmin to be able to create other admins
+5. Go to http://localhost:8000/docs#/admin/create_superadmin_admin_superadmin__post and click on Try it out button
+6. Set these values
+`{"admin_id": "superadmin_test",
+  "username": "test",
+  "email": "test@mail.com",
+  "password": "test123",
+  "is_superadmin": true}`
+7. Go to http://localhost:8000/docs#/login/login_for_access_token_login__post and click on Try it out button
+8. Set grant_type to password and username set `email`to `test@mail.com` and `password` to `test123`
+9. Now you can create other admins as well products
 
 
 -----------
