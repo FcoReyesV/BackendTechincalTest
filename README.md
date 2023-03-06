@@ -48,10 +48,10 @@ Use
   "username": "test",
   "email": "test@mail.com",
   "password": "test123",
-  "is_superadmin": true}`
+  "is_superadmin": true}` and press execute
 7. Go to http://localhost:8000/docs#/login/login_for_access_token_login__post and click on Try it out button
-8. Set grant_type to password and username set `email`to `test@mail.com` and `password` to `test123`
-9. Now you can create other admins as well products
+8. Set `grant_type` to `password` and username set `email`to `test@mail.com` and `password` to `test123` and press execute
+9. Now, you are logged in and can create other admins as well products
 
 
 -----------
