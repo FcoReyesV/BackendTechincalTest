@@ -36,7 +36,3 @@ class TestAdminService(unittest.TestCase):
         deleted_admin = self.admin_service.get_admin_by_id(
             "email", self.admin1.email)
         self.assertEqual(deleted_admin, None)
-
-        
-     
-
