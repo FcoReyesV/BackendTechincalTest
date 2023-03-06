@@ -13,7 +13,7 @@ user_repo: IUserRepository = MongoDBUserRepository("MONGO_URI")
 auth_service = AuthService(user_repo)
 access_token = None
 
-@router.post("/login/")
+@router.post("/")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     global access_token
     user = auth_service.authenticate_user(

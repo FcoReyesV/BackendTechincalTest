@@ -43,6 +43,20 @@ async def create_admin(admin: Admin, is_superadmin: bool = Depends(check_if_user
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Admin could not be created")
+    
+@router.post("/superadmin/", response_model=Admin)
+async def create_superadmin(admin: Admin):
+    admin.is_superadmin = True
+    admin.password = crypt.hash(admin.password)
+    result = admin_service.create_admin(admin)
+    if result:
+        raise HTTPException(
+            status_code=status.HTTP_201_CREATED,
+            detail="Admin created")
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Admin could not be created")
 
 @router.get("/{admin_id}")
 async def get_admin(admin_id: str, is_superadmin: bool = Depends(check_if_user_is_superadmin)) -> Admin:
