@@ -12,6 +12,7 @@ Used technology
 *Python*<br>
 *FastAPI*<br>
 *Mongodb*<br>
+*Sengrid*<br>
 
 
 
@@ -21,6 +22,8 @@ Getting Started
 1. Clone the repository
 2. Create and activate a virtual environment
 3. Install the dependencies with `pip install -r requirements.txt`
+4. Download <a href="https://www.mongodb.com/try/download/community" target="_blank">mongo</a>  or create an account at <a href="https://www.mongodb.com/atlas/database" target="_blank">mongo atlas</a> and get the remote mongo uri
+5. Create an account at <a href="https://signup.sendgrid.com/" target="_blank">sengrid</a> and get the sengrid api key to be able to send mails
 
 -----------
 Settings
@@ -40,19 +43,18 @@ Use
 
 1. Go to the root folder
 2. Run the app in the console with  `python -m uvicorn fastapi_main:app --reload`
-3. Access the API documentation at http://localhost:8000/docs
-4. Create a superadmin to be able to create other admins
-5. Go to http://localhost:8000/docs#/admin/create_superadmin_admin_superadmin__post and click on Try it out button
+3. Access the API documentation at <a href="http://localhost:8000/docs" target="_blank">localhost-docs</a>
+4. Create a <a href="http://localhost:8000/docs#/admin/create_superadmin_admin_superadmin__post " target="_blank">superadmin</a> to be able to create other admins and click on `Try it out` button
 6. Set these values
 `{"admin_id": "superadmin_test",
   "username": "test",
   "email": "test@mail.com",
   "password": "test123",
-  "is_superadmin": true}` and press execute
-7. Go to http://localhost:8000/docs#/login/login_for_access_token_login__post and click on Try it out button
-8. Set `grant_type` to `password` and username set `email`to `test@mail.com` and `password` to `test123` and press execute
+  "is_superadmin": true}` and press `execute`
+7. Go to <a href="http://localhost:8000/docs#/login/login_for_access_token_login__post" target="_blank">login</a> and click on `Try it out` button
+8. Set `grant_type` to `password` and username set `email`to `test@mail.com` and `password` to `test123` and press `execute`
 9. Now, you are logged in and can create other admins as well products
-
+10. If you want to make changes to `products`, the id used is the `sku`
 
 -----------
 Tests
@@ -69,9 +71,9 @@ Architecture
 
 The architecture of this project follows the DDD (Domain Driven Design) pattern, with the following layers:
 
-Application: contains the use cases of the application
-Domain: Contains the entities and value objects of the application
-Infrastructure: contains the adapters to interact with external components (database, services, etc.)
+- Domain: contains the entities and value objects of the application<br>
+- Application: contains the use cases of the application<br>
+- Infrastructure: contains the adapters to interact with external components (database, repositories, etc.)
 
 -----------
 DDD diagrams
@@ -80,10 +82,10 @@ DDD diagrams
 
 Below are the DDD diagrams for the following entities:
 
--Admin<br>
--Product<br>
--Login<br>
--Utils<br>
+- Admin<br>
+- Product<br>
+- Login<br>
+- Utils<br>
 
 
 -----------
