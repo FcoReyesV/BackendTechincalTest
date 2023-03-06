@@ -96,12 +96,12 @@ Admin
 -----------
 Product
 ------------
-![alt text](https://github.com/FcoReyesV/BackendTechnicalTest/blob/26875fe540f6e8eb84ca70c05a3207ee9c238e52/ZebrandsBackendTechnicalTest_product_ddd_v2.jpg)
+![alt text](https://github.com/FcoReyesV/BackendTechnicalTest/blob/298987f4871ee4304428f4835e34c98430d9fa7d/ZebrandsBackendTechnicalTest_product_ddd_v2.jpg)
 
 -----------
 Login
 ------------
-![alt text](https://github.com/FcoReyesV/BackendTechnicalTest/blob/26875fe540f6e8eb84ca70c05a3207ee9c238e52/ZebrandsBackendTechnicalTest_login_ddd_v2.jpg)
+![alt text](https://github.com/FcoReyesV/BackendTechnicalTest/blob/298987f4871ee4304428f4835e34c98430d9fa7d/ZebrandsBackendTechnicalTest_login_ddd_v2.jpg)
 
 -----------
 Utils
