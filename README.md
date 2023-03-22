@@ -1,5 +1,4 @@
-# BackendTechincalTest
- Basic catalog system to manage products
+# Basic catalog system to manage products
 ---------------------
 
 
