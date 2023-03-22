@@ -18,8 +18,7 @@ class EmailService:
             subject=subject,
             html_content=f"<strong>{message_body}</strong>")
         try:
-            sendgrid_client = SendGridAPIClient(
-                "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")
+            sendgrid_client = SendGridAPIClient(self.__sengrid_api_key)
             response = sendgrid_client.send(message)
             print(response.status_code)
             print(response.body)
